@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+    <meta charset="utf-8">
+    {% if title %}
+      <title>{{ title }} - Microblog</title>
+    {% else %}
+      <title>Welcome to Microblog</title>
+    {% endif %}
+  </head>
+  <body>
+    <div>
+      Microblog:
+        <a href="{{ url_for('index') }}">Home</a>
+        {% if current_user.is_anonimous %}
+        <a href="{{ url_for('login') }}">Log In</a>
+        {% else %}
+        <a href="{{ url_for('user', username=current_user.username) }}">Profile</a>
+        <a href="{{ url_for('logout') }}">Log Out</a>
+        <a href="{{ url_for('explore') }}">Explore</a>
+        {% endif %}
+
+    </div>
+    <hr>
+    {% with messages = get_flashed_messages() %}
+    {% if messages %}
+    <ul>
+      {% for message in messages %}
+      <li>{{ message }}</li>
+      {% endfor %}
+    </ul>
+    {% endif %}
+    {% endwith %}
+
+    {% block content %}
+    {% endblock %}
+  </body>
+</html>
